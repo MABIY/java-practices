@@ -14,10 +14,8 @@ sourceSets {
 }
 
 configurations {
-    itestImplementation.extendsFrom(testImplementation)
-    itestRuntimeOnly.extendsFrom(testRuntimeOnly)
-//    itestImplementation.extendsFrom testImplementation
-//    itestRuntimeOnly.extendsFrom testRuntimeOnly
+    itestImplementation.extendsFrom testImplementation
+    itestRuntimeOnly.extendsFrom testRuntimeOnly
 }
 
 dependencies {
