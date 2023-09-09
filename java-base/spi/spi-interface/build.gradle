@@ -18,24 +18,3 @@ tasks.named('jar') {
 }
 
 
-tasks.register('printSourceSetInformation') {
-    doLast {
-        sourceSets.each {
-            srcSet ->
-                println "[" + srcSet.name + "]"
-                println "-->Source directories: " + srcSet.allJava.srcDirs + ""
-                println "-->Output directories: " + srcSet.output.classesDirs.files + ""
-                println "-->Compile classpath:"
-                srcSet.compileClasspath.files.each {
-                    println "  " + it.path
-                }
-                println ""
-
-                println "-->runtime classpath:"
-                srcSet.runtimeClasspath.files.each {
-                    println "  " + it.path
-                }
-                println ""
-        }
-    }
-}

@@ -1,0 +1,73 @@
+plugins {
+    id 'java.practices.java-common-conventions'
+}
+
+
+sourceSets {
+    itest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+        java {
+
+        }
+    }
+}
+
+configurations {
+    itestImplementation.extendsFrom(testImplementation)
+    itestRuntimeOnly.extendsFrom(testRuntimeOnly)
+//    itestImplementation.extendsFrom testImplementation
+//    itestRuntimeOnly.extendsFrom testRuntimeOnly
+}
+
+dependencies {
+    implementation('org.apache.httpcomponents:httpclient:4.5.12')
+    testImplementation('junit:junit:4.12')
+    itestImplementation('com.google.guava:guava:29.0-jre')
+}
+//tasks.register('integrationTest', Test) {
+//    description = 'Runs integration tests.'
+//    group = 'verification'
+//
+//    testClassesDirs = sourceSets.itest.output.classesDirs
+//    classpath = sourceSets.itest.runtimeClasspath
+//    shouldRunAfter test
+//
+//    useJUnitPlatform()
+//
+//    testLogging {
+//        events "passed"
+//    }
+//}
+
+//check.dependsOn integrationTest
+
+task itest(type: Test) {
+    description = "Run integration tests"
+    group = "verification"
+    testClassesDirs = sourceSets.itest.output.classesDirs
+    classpath = sourceSets.itest.runtimeClasspath
+}
+
+
+task printSourceSetInformation() {
+    doLast {
+        sourceSets.each {
+            srcSet ->
+                println "["+ srcSet.name+ "]"
+                println "-->Source directories: " + srcSet.allJava.srcDirs + ""
+                println "-->Output directories: " + srcSet.output.classesDirs.files + ""
+                println "-->Compile classpath:"
+                srcSet.compileClasspath.files.each {
+                    println "  " + it.path
+                }
+                println ""
+
+                println "-->runtime classpath:"
+                srcSet.runtimeClasspath.files.each {
+                    println "  " + it.path
+                }
+                println ""
+        }
+    }
+}

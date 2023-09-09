@@ -17,4 +17,6 @@ include 'java-base:spi:spi-test'
 findProject(':java-base:spi:spi-test')?.name = 'spi-test'
 include 'java-base:spi:spi-implementation'
 findProject(':java-base:spi:spi-implementation')?.name = 'spi-implementation'
+include 'java-base:source-sets'
+findProject(':java-base:source-sets')?.name = 'source-sets'
 
