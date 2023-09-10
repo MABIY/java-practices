@@ -7,5 +7,9 @@ import java.util.List;
  */
 public interface Search {
 
+    /**
+     * @param keyword search param
+     * @return list
+     */
     List<String> searchDoc(String keyword);
 }

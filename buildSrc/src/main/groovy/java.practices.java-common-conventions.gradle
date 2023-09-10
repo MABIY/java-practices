@@ -7,9 +7,21 @@ plugins {
     id 'java'
 }
 
+group ="com.lh.java.practice"
+
+version ="0.1-SNAPSHOT"
 repositories {
     maven {
         url 'https://maven.aliyun.com/repository/public/'
+    }
+
+    maven {
+        allowInsecureProtocol = true
+        url = "http://localhost:8081/repository/maven-public/"
+        credentials {
+            username = mavenUser
+            password = mavenPassword
+        }
     }
     mavenLocal()
     mavenCentral()
