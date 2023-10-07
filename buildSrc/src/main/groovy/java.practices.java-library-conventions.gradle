@@ -16,6 +16,18 @@ java {
     withJavadocJar()
 }
 
+sourcesJar {
+    dependsOn(compileJava)
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs +="$buildDir/generated/sources/annotationProcessor/java/main"
+        }
+    }
+}
+
 publishing {
     publications {
         library(MavenPublication) {
@@ -27,7 +39,7 @@ publishing {
         maven {
             name="local-sonatype-nexus"
             allowInsecureProtocol = true
-            def releasesRepoUrl = "http://localhost:8081/repository/maven-releases/";
+            def releasesRepoUrl = "http://localhost:8081/repository/maven-releases/"
             def snapshotsRepoUrl = "http://localhost:8081/repository/maven-snapshots/"
             url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
             credentials {
