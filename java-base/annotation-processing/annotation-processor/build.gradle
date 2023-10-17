@@ -1,0 +1,13 @@
+plugins {
+    id 'java.practices.java-library-conventions'
+}
+
+
+dependencies {
+    implementation project(':java-base:annotation-processing:annotation')
+    implementation "com.squareup:javapoet:$javapoetVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    implementation "com.google.auto.service:auto-service-annotations:$autoSericeVersion"
+    annotationProcessor "com.google.auto.service:auto-service:$autoSericeVersion"
+}

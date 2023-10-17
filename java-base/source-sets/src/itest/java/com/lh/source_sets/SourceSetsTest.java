@@ -9,6 +9,7 @@ import static org.junit.Assert.assertThat;
 public class SourceSetsTest {
 
     @Test
+    @Deprecated(since = "4.5",forRemoval = true)
     public void givenImmutableList_whenRun_ThenSuccess() {
 
         SourceSetsObject underTest = new SourceSetsObject("lorem", "ipsum");

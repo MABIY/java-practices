@@ -1,0 +1,8 @@
+plugins {
+    id 'java.practices.java-library-conventions'
+}
+
+
+dependencies {
+    api "com.fasterxml.jackson.core:jackson-annotations:$jacksonAnnotationsVersion"
+}

@@ -1,7 +1,4 @@
-# java practice
-
-## Repository Managers
->仓库管理者: [sonatype/nexus3](https://help.sonatype.com/repomanager3)
+# local sonatype nexus
 ```shell
-docker run -d -p 8081:8081 --name nexus -v ~/test/nexus-data:/nexus-data sonatype/nexus3:3.60.0
+docker run --restart=always -d -p 8081:8081 --name nexus -v ~/test/nexus-data:/nexus-data sonatype/nexus3:3.60.0
 ```

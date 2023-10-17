@@ -1,0 +1,12 @@
+plugins {
+    id 'java.practices.java-library-conventions'
+}
+
+
+dependencies {
+    implementation project(':java-base:annotation-processing:annotation')
+    annotationProcessor project(':java-base:annotation-processing:annotation-processor')
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+
+}
