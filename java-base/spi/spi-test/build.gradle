@@ -4,8 +4,8 @@ plugins {
 
 
 dependencies {
-    implementation 'com.lh.java.practice:spi-interface:0.1-SNAPSHOT'
-    implementation 'com.lh.java.practice:spi-implementation:0.1-SNAPSHOT'
+    implementation project(":java-base:spi:spi-interface")
+    implementation project(":java-base:spi:spi-implementation")
 
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
