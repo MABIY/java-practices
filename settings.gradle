@@ -24,6 +24,4 @@ include 'java-base:annotation-processing:annotation'
 findProject(':java-base:annotation-processing:annotation')?.name = 'annotation'
 include 'java-base:annotation-processing:annotation-processor'
 findProject(':java-base:annotation-processing:annotation-processor')?.name = 'annotation-processor'
-include 'java-base:annotation-processing:test-annotation-processor'
-findProject(':java-base:annotation-processing:test-annotation-processor')?.name = 'test-annotation-processor'
 

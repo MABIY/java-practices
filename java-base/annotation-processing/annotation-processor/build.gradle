@@ -13,5 +13,6 @@ dependencies {
 
     testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
     testImplementation "org.projectlombok:lombok:$lombokVersion"
-    testImplementation 'com.google.testing.compile:compile-testing:0.21.0'
+    testImplementation "com.google.testing.compile:compile-testing:$googleCompileTestingVersion"
+    testImplementation "org.hamcrest:hamcrest:$hamcrestVersion"
 }
