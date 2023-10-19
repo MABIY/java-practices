@@ -6,6 +6,10 @@ plugins {
 dependencies {
     implementation project(':java-base:annotation-processing:annotation')
     implementation "com.squareup:javapoet:$javapoetVersion"
+
+    implementation "jakarta.persistence:jakarta.persistence-api:$jakartaPersistenceVersion"
+    implementation "jakarta.validation:jakarta.validation-api:$jakartaValidationVersion"
+
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
     compileOnly "org.projectlombok:lombok:$lombokVersion"
     implementation "com.google.auto.service:auto-service-annotations:$autoSericeVersion"

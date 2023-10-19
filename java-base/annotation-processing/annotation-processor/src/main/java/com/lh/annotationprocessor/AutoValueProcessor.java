@@ -44,6 +44,7 @@ public class AutoValueProcessor extends BaseProcessor {
     @Override
     protected void process(Element element, RoundEnvironment roundEnv) {
         TypeElement typeElement = (TypeElement) element;
+        List<TypeVariableName> typeVariableNames  = typeElement.getTypeParameters().stream().map(typeParameterElement -> (TypeVariableName)TypeVariableName.get(typeParameterElement.asType())).toList();
         List<AnnotationSpec> classAnnotations = copyAnnotations(typeElement);
         Stream<Map.Entry<TypeElement, Stream<Element>>> inheritedChain = inheritedChain(typeElement.asType());
 
@@ -78,6 +79,7 @@ public class AutoValueProcessor extends BaseProcessor {
             createJavaFile(
                     classQualifiedName.packageName(),
                     classQualifiedName.simpleName(),
+                    typeVariableNames,
                     classAnnotations,
                     classAndAllGenertedFieldsMap.get(classQualifedNameString));
         }
@@ -99,10 +101,11 @@ public class AutoValueProcessor extends BaseProcessor {
                 .toList();
     }
 
-    private void createJavaFile(String packageName, String classSimpleName,List<AnnotationSpec> classAnnotationSpecs ,List<GeneratedField> generatedFields) {
+    private void createJavaFile(String packageName, String classSimpleName, List<TypeVariableName> typeVariableNames, List<AnnotationSpec> classAnnotationSpecs , List<GeneratedField> generatedFields) {
         ClassName className = ClassName.get(packageName, classSimpleName);
         TypeSpec.Builder classBuilder = TypeSpec.classBuilder(classSimpleName)
                 .addAnnotation(Data.class)
+                .addTypeVariables(typeVariableNames)
                 .addAnnotations(classAnnotationSpecs)
                 .addModifiers(Modifier.PUBLIC);
 
