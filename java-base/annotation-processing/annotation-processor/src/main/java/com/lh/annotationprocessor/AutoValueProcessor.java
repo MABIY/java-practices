@@ -1,6 +1,5 @@
 package com.lh.annotationprocessor;
 
-
 import com.fasterxml.jackson.annotation.JsonView;
 import com.google.auto.service.AutoService;
 import com.lh.annotation.AutoValueDTO;
@@ -23,28 +22,33 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.lh.annotationprocessor.utils.StringUtils.uppercaseFirstLetter;
-
-// todo_lh 属性注释 ， 类的泛化参数对应的属性值
 @AutoService(Processor.class)
 public class AutoValueProcessor extends BaseProcessor {
-    public  FieldSpec convert(VariableElement fieldElement) {
-        return FieldSpec.builder(
-                        TypeName.get(fieldElement.asType()),
-                        fieldElement.getSimpleName().toString(),
-                        fieldElement.getModifiers().toArray(Modifier[]::new))
-                .addAnnotations(copyAnnotations(fieldElement))
-                .build();
-    }
-
     private static void extracted(MethodSpec.Builder createMethodBuilder, FieldSpec fieldSpec) {
         createMethodBuilder.addStatement(
                 "entity.set" + uppercaseFirstLetter(fieldSpec.name) + "(" + fieldSpec.name + ")");
     }
 
+    private FieldSpec convert(TypeElementField typeElementField) {
+        VariableElement variableElement = typeElementField.variableElement;
+        TypeName typeName = typeElementField.fieldGenericParameter.orElse(TypeName.get(variableElement.asType()));
+        return FieldSpec.builder(
+                        typeName,
+                        variableElement.getSimpleName().toString(),
+                        variableElement.getModifiers().toArray(Modifier[]::new))
+                .addAnnotations(copyAnnotations(variableElement))
+                .build();
+    }
+
     @Override
     protected void process(Element element, RoundEnvironment roundEnv) {
         TypeElement typeElement = (TypeElement) element;
-        List<TypeVariableName> typeVariableNames  = typeElement.getTypeParameters().stream().map(typeParameterElement -> (TypeVariableName)TypeVariableName.get(typeParameterElement.asType())).toList();
+
+        //原始待处理类的泛化参数
+        List<TypeVariableName> typeVariableNamesOfOrgianTypeElement = typeElement.getTypeParameters().stream()
+                .map(typeParameterElement -> (TypeVariableName) TypeVariableName.get(typeParameterElement.asType()))
+                .toList();
+
         List<AnnotationSpec> classAnnotations = copyAnnotations(typeElement);
         Stream<Map.Entry<TypeElement, Stream<Element>>> inheritedChain = inheritedChain(typeElement.asType());
 
@@ -52,8 +56,11 @@ public class AutoValueProcessor extends BaseProcessor {
                 .flatMap(typeElementStreamEntry -> typeElementStreamEntry
                         .getValue()
                         .filter(value -> value.getKind().isField())
-                        .map(value -> (VariableElement) value)
-                        .map(value -> new TypeElementField(typeElementStreamEntry.getKey(), value)))
+                        .map(filed -> (VariableElement) filed)
+                        .map(field -> {
+                            TypeElement enclosedFieldTypeElement = typeElementStreamEntry.getKey();
+                            return getTypeElementField(field, typeElement, enclosedFieldTypeElement);
+                        }))
                 .flatMap(typeElementField -> getDtoAnnotationValueType(typeElementField.variableElement).stream()
                         .map(mirror -> new GeneratedField(mirror, typeElementField)))
                 .collect(Collectors.groupingBy(GeneratedField::getGroupName));
@@ -79,13 +86,38 @@ public class AutoValueProcessor extends BaseProcessor {
             createJavaFile(
                     classQualifiedName.packageName(),
                     classQualifiedName.simpleName(),
-                    typeVariableNames,
+                    typeVariableNamesOfOrgianTypeElement,
                     classAnnotations,
                     classAndAllGenertedFieldsMap.get(classQualifedNameString));
         }
     }
 
-    private  List<AnnotationSpec> copyAnnotations(Element element) {
+    private TypeElementField getTypeElementField(
+            VariableElement field, TypeElement orgianTypeElement, TypeElement enclosedFieldTypeElement) {
+        ClassName fieldGenericParameter = null;
+        if (TypeName.get(field.asType()) instanceof TypeVariableName aField) {
+            if (types.asElement(orgianTypeElement.getSuperclass()).asType() == enclosedFieldTypeElement.asType()) {
+                if (TypeName.get(orgianTypeElement.getSuperclass()) instanceof ParameterizedTypeName) { // 判断是否是类型化参数
+                    List<TypeName> typeArguments =
+                            ((ParameterizedTypeName) TypeName.get(enclosedFieldTypeElement.asType())).typeArguments;
+                    for (int i = 0; i < typeArguments.size(); i++) {
+                        if (aField.toString().equals(typeArguments.get(i).toString())) {
+                            Object object = ((ParameterizedTypeName) TypeName.get(orgianTypeElement.getSuperclass()))
+                                    .typeArguments.get(i);
+                            if (object instanceof ClassName item) {
+                                fieldGenericParameter = item;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        types.asElement(orgianTypeElement.getSuperclass());
+        return new TypeElementField(fieldGenericParameter, enclosedFieldTypeElement, field);
+    }
+
+    private List<AnnotationSpec> copyAnnotations(Element element) {
         return elements.getAllAnnotationMirrors(element).stream()
                 .map(AnnotationSpec::get)
                 .filter(annotationSpec -> {
@@ -101,7 +133,12 @@ public class AutoValueProcessor extends BaseProcessor {
                 .toList();
     }
 
-    private void createJavaFile(String packageName, String classSimpleName, List<TypeVariableName> typeVariableNames, List<AnnotationSpec> classAnnotationSpecs , List<GeneratedField> generatedFields) {
+    private void createJavaFile(
+            String packageName,
+            String classSimpleName,
+            List<TypeVariableName> typeVariableNames,
+            List<AnnotationSpec> classAnnotationSpecs,
+            List<GeneratedField> generatedFields) {
         ClassName className = ClassName.get(packageName, classSimpleName);
         TypeSpec.Builder classBuilder = TypeSpec.classBuilder(classSimpleName)
                 .addAnnotation(Data.class)
@@ -109,11 +146,9 @@ public class AutoValueProcessor extends BaseProcessor {
                 .addAnnotations(classAnnotationSpecs)
                 .addModifiers(Modifier.PUBLIC);
 
-        Set<FieldSpec> fieldSpecs = generatedFields.stream()
-                .map(field -> convert(field.field.variableElement))
-                .collect(Collectors.toSet());
+        Set<FieldSpec> fieldSpecs =
+                generatedFields.stream().map(field -> convert(field.field)).collect(Collectors.toSet());
 
-        // todo_lh 过来生成类的注解
         fieldSpecs.forEach(classBuilder::addField);
 
         MethodSpec.Builder createMethodBuilder = MethodSpec.methodBuilder("create")
@@ -189,10 +224,17 @@ public class AutoValueProcessor extends BaseProcessor {
         }
     }
 
-    @AllArgsConstructor
     private static class TypeElementField {
         public final TypeElement typeElement;
+        public final Optional<TypeName> fieldGenericParameter;
         public final VariableElement variableElement;
+
+        public TypeElementField(
+                TypeName fieldGenericParameter, TypeElement typeElement, VariableElement variableElement) {
+            this.fieldGenericParameter = Optional.ofNullable(fieldGenericParameter);
+            this.typeElement = typeElement;
+            this.variableElement = variableElement;
+        }
     }
 
     @AllArgsConstructor

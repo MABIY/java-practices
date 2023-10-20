@@ -67,7 +67,7 @@ public class ProcessorTest {
 
     @Test
     @Order(2)
-    public void test1() throws IOException {
+    public void test2() throws IOException {
         JavaFileObject helloWorld = JavaFileObjects.forResource("UserAccount.java");
         Compilation compilation = compiler.compile(helloWorld);
         assertThat(compilation).succeeded();
@@ -89,4 +89,22 @@ public class ProcessorTest {
                 "com.lh.annotationprocessor.value.UserAccountResetPassword",
                 "result/useracccount/UserAccountResetPassword.java");
     }
+
+    @Test
+    @Order(3)
+    public void test3() throws IOException {
+        JavaFileObject helloWorld = JavaFileObjects.forResource("Bar.java");
+        Compilation compilation = compiler.compile(helloWorld);
+        assertThat(compilation).succeeded();
+
+        checkResult(
+                compilation,
+                "com.lh.annotationprocessor.value.BarSummary",
+                "result/generic/BarSummary.java");
+        checkResult(
+                compilation,
+                "com.lh.annotationprocessor.value.BarDetail",
+                "result/generic/BarDetail.java");
+    }
+
 }
