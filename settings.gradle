@@ -12,16 +12,11 @@ plugins {
 
 rootProject.name = 'java-practices'
 include('java-base:spi:spi-interface')
-findProject(':java-base:spi:spi-interface')?.name = 'spi-interface'
 include 'java-base:spi:spi-test'
-findProject(':java-base:spi:spi-test')?.name = 'spi-test'
 include 'java-base:spi:spi-implementation'
-findProject(':java-base:spi:spi-implementation')?.name = 'spi-implementation'
 include 'java-base:source-sets'
-findProject(':java-base:source-sets')?.name = 'source-sets'
 include 'java-base:annotation-processing'
 include 'java-base:annotation-processing:annotation'
-findProject(':java-base:annotation-processing:annotation')?.name = 'annotation'
 include 'java-base:annotation-processing:annotation-processor'
-findProject(':java-base:annotation-processing:annotation-processor')?.name = 'annotation-processor'
+include 'projects:web-service:spring-web-service'
 

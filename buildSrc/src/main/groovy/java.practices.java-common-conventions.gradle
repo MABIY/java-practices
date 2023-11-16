@@ -9,7 +9,7 @@ plugins {
 
 group ="com.lh.java.practice"
 
-version ="0.1-SNAPSHOT"
+version ="0.2-SNAPSHOT"
 repositories {
     maven {
         url 'https://maven.aliyun.com/repository/public/'
