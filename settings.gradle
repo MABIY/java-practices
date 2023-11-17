@@ -19,4 +19,5 @@ include 'java-base:annotation-processing'
 include 'java-base:annotation-processing:annotation'
 include 'java-base:annotation-processing:annotation-processor'
 include 'projects:web-service:spring-web-service'
+include 'projects:web-service:spring-web-service-consumer'
 
