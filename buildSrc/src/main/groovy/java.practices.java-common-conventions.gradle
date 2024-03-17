@@ -32,11 +32,8 @@ java {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
-
-tasks.withType(JavaCompile) {
-    configure(options) {
-        options.compilerArgs << '-Xlint:deprecation' << '-Xlint:unchecked' // examples
-    }
+compileJava {
+    options.compilerArgs << '-Xlint:deprecation' << '-Xlint:unchecked'
 }
 
 
