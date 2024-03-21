@@ -38,7 +38,10 @@ compileJava {
 
 
 dependencies {
+    implementation 'org.slf4j:slf4j-api:2.0.12'
+    implementation 'ch.qos.logback:logback-classic:1.5.3'
 
+    implementation("com.google.guava:guava:33.1.0-jre")
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
 
