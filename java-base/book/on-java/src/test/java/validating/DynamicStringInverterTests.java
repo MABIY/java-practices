@@ -99,7 +99,7 @@ public class DynamicStringInverterTests {
                     System.out.println(inverter.getClass().getSimpleName() + ": " + id);
                     try {
                         if (test.apply(inverter) != "fail") System.out.println("Success");
-                    } catch (Exception | Error e) { // todo_lh why need Error
+                    } catch (Exception | Error e) {
                         System.out.println("Exception: " + e.getMessage());
                     }
                 });
