@@ -46,7 +46,7 @@ public class DynamicStringInverterTests {
             String result = disallowed
                     .chars()
                     .mapToObj(c -> {
-                        String cc = Character.toString(c); // todo_lh 测试 c or int parameter
+                        String cc = Character.toString((char) c);
                         try {
                             inverter.invert(cc);
                             return "";
