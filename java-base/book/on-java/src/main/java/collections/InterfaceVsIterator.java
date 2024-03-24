@@ -1,7 +1,7 @@
 package collections;
 
-import collections.temp.Pet;
-import collections.temp.PetCreator;
+import reflection.pets.Pet;
+import reflection.pets.PetCreator;
 
 import java.util.*;
 

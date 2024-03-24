@@ -1,10 +1,10 @@
-// reflection/pets/Cat.java
+// reflection/pets/Rat.java
 // (c)2021 MindView LLC: see Copyright.txt
 // We make no guarantees that this code is fit for any purpose.
 // Visit http://OnJava8.com for more book information.
-package collections.temp;
+package reflection.pets;
 
-public class Cat extends Pet {
-  public Cat(String name) { super(name); }
-  public Cat() { super(); }
+public class Rat extends Rodent {
+  public Rat(String name) { super(name); }
+  public Rat() { super(); }
 }

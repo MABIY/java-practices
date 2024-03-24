@@ -1,9 +1,9 @@
 package collections;
 
-import collections.temp.Cat;
-import collections.temp.Dog;
-import collections.temp.Hamster;
-import collections.temp.Pet;
+import reflection.pets.Cat;
+import reflection.pets.Dog;
+import reflection.pets.Hamster;
+import reflection.pets.Pet;
 
 import java.util.HashMap;
 import java.util.Map;

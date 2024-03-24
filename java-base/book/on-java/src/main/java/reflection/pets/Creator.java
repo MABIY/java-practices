@@ -3,7 +3,7 @@
 // We make no guarantees that this code is fit for any purpose.
 // Visit http://OnJava8.com for more book information.
 // Creates random Pets
-package collections.temp;
+package reflection.pets;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;

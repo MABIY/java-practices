@@ -4,7 +4,7 @@
 // Visit http://OnJava8.com for more book information.
 // Using class literals
 // {java reflection.pets.PetCreator}
-package collections.temp;
+package reflection.pets;
 
 import java.util.Arrays;
 import java.util.Collections;

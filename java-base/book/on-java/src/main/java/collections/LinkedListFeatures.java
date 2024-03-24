@@ -1,9 +1,9 @@
 package collections;
 
-import collections.temp.Hamster;
-import collections.temp.Pet;
-import collections.temp.PetCreator;
-import collections.temp.Rat;
+import reflection.pets.Hamster;
+import reflection.pets.Pet;
+import reflection.pets.PetCreator;
+import reflection.pets.Rat;
 
 import java.util.LinkedList;
 
