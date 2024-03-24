@@ -5,7 +5,6 @@ import reflection.pets.Pet;
 import reflection.pets.PetCreator;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
