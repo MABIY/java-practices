@@ -1,4 +1,4 @@
-package onjava;
+package generics;
 
 /**
  * @author lh
