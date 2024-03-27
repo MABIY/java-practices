@@ -1,12 +1,11 @@
 package generics;
 
-import ch.qos.logback.core.hook.DefaultShutdownHook;
 
 /**
  * @author lh
  */
 public class Wildcards {
-    // Raw argumetn:
+    // Raw arguments:
     static void rawArgs(Holder holder, Object arg) {
         //          holder.set(arg);
         // warning: [unchecked] unchecked call to set(T)
@@ -142,7 +141,7 @@ public class Wildcards {
         //    CAP#1 extends Object from capture of ?
         // 1 error
 
-        //        Long r8 = exact2(bounded,lng);
+//                Long r8 = exact2(bounded,lng);
         // error: method exact2 in class Wildcards cannot be applied to given types;
         //        Long r8 = exact2(bounded,lng);
         //                  ^
