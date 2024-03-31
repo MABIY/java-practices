@@ -227,6 +227,10 @@ public interface Rand {
             return trim(r.nextDouble());
         }
 
+        public java.lang.Double get(int n) {
+            return trim(r.nextDouble());
+        }
+
         public java.lang.Double[] array(int sz) {
             double[] primitive = new Rand.Pdouble().array(sz);
             java.lang.Double[] result = new java.lang.Double[sz];
