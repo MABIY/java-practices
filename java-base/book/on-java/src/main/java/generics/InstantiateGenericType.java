@@ -13,6 +13,7 @@ class ClassAsFactory<T> implements Supplier<T> {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public T get() {
         try{
             return kind.newInstance();

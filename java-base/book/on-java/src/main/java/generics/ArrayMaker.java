@@ -13,7 +13,7 @@ public class ArrayMaker<T> {
         this.kind = kind;
     }
 
-//    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     T[] create(int size){
         return (T[]) Array.newInstance(kind,size);
     }

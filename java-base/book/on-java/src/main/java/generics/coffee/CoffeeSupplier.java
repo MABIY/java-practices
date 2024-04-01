@@ -32,6 +32,7 @@ public class CoffeeSupplier implements Supplier<Coffee>,Iterable<Coffee> {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public Coffee get() {
         try {
             return (Coffee) types[rand.nextInt(types.length)].newInstance();

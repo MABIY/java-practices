@@ -15,6 +15,7 @@ class Apple {
 
 class Orange {}
 public class ApplesAndOrangesWithoutGenerics {
+    @SuppressWarnings("unchecked")
     public static void main(String[] args) {
         ArrayList apples = new ArrayList();
         for (int i = 0; i <3; i++) {

@@ -12,7 +12,7 @@ public class CaptureConversion {
         f1(holder); // call with captured type
     }
 
-//    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     public static void main(String[] args) {
         Holder raw = new Holder<>(1);
         f1(raw);

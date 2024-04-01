@@ -27,6 +27,7 @@ class FixedSizeStack<T> {
         return index == 0 ? null: (T) storage[--index];
     }
 
+    @SuppressWarnings("unchecked")
     Stream<T> stream() {
         return (Stream<T>) Arrays.stream(storage);
     }

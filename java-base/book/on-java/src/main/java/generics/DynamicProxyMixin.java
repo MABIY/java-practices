@@ -17,6 +17,7 @@ import static onjava.Tuple.*;
 class MixinProxy implements InvocationHandler {
     Map<String,Object> delegatesByMethod;
 
+    @SuppressWarnings("unchecked")
     public MixinProxy(Tuple2<Object,Class<?>>... pairs) {
         delegatesByMethod =  new HashMap<>();
         for (Tuple2<Object, Class<?>> pair : pairs) {
@@ -37,13 +38,14 @@ class MixinProxy implements InvocationHandler {
         return method.invoke(delegate,args);
     }
 
+    @SuppressWarnings("unchecked")
     public static Object newInstance(Tuple2... pairs) {
         Class[] interfaces = new Class[pairs.length];
         for (int i = 0; i <pairs.length; i++) {
             interfaces[i] =(Class) pairs[i].a2;
         }
 
-        ClassLoader c1 = pairs[0].a1.getClass().getClassLoader();;
+        ClassLoader c1 = pairs[0].a1.getClass().getClassLoader();
         return Proxy.newProxyInstance(c1,interfaces,new MixinProxy(pairs));
     }
 }

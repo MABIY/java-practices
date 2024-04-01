@@ -31,6 +31,7 @@ public class ToyTest {
         System.out.println("Canonical name: " + cc.getCanonicalName());
     }
 
+    @SuppressWarnings("unchecked")
     public static void main(String[] args) {
         Class c = null;
         try {

@@ -5,6 +5,8 @@ package generics;
  */
 public class Erased<T> {
     private final int SIZE = 100;
+
+    @SuppressWarnings("unchecked")
     public void f(Object arg) {
         // error: illegal generic type for instanceof
 //        if(arg instanceof T) {

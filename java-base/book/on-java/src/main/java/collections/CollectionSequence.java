@@ -25,6 +25,7 @@ public class CollectionSequence<T> extends AbstractCollection<T> {
             }
 
             @Override
+            @SuppressWarnings("unchecked")
             public T next() {
                 T pet = (T) pets[index++];
                 return pet;

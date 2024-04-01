@@ -12,7 +12,7 @@ import java.util.List;
  * @author lh
  */
 public class CheckedList {
-    @SuppressWarnings("unchcked")
+    @SuppressWarnings("unchecked")
     static void oldStyleMethod(List probablyDogs) {
         probablyDogs.add(new Cat());
     }

@@ -13,6 +13,7 @@ public class UnBoundedWildcards1 {
     static List<?> list2;
     static List<? extends String> list3;
 
+    @SuppressWarnings("unchecked")
     static void assign1(List list) {
         list1 = list;
         list2 = list;
@@ -30,6 +31,7 @@ public class UnBoundedWildcards1 {
 //        list3 = list;
     }
 
+    @SuppressWarnings("unchecked")
     public static void main(String[] args) {
         assign1(new ArrayList());
         assign2(new ArrayList());

@@ -18,6 +18,7 @@ class Book {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     protected void finalize() {
         if(checkedOut){
             System.out.println("Error: check1ed out");

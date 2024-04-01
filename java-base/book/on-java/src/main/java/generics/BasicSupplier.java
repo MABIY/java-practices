@@ -13,6 +13,7 @@ public class BasicSupplier<T> implements Supplier<T> {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public T get() {
         try {
             return type.newInstance();
