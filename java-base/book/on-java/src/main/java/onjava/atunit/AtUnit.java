@@ -44,7 +44,7 @@ public class AtUnit implements ProcessFiles.Strategy {
                creator = checkForCreatorMethod(m);
            }
            if(cleanup == null) {
-               cleanup = checkForCreatorMethod(m);
+               cleanup = checkforCleanupMethod(m);
            }
         }
         if(testMethods.size()> 0) {
@@ -61,7 +61,7 @@ public class AtUnit implements ProcessFiles.Strategy {
             System.out.println(testClass.getName());
         }
         for (Method m : testMethods) {
-            System.out.print("   . " + m.getName() +" ");
+            System.out.print(" . " + m.getName() +" ");
             try{
                 Object testObject = createTestObject(creator);
                 boolean success = false;
@@ -90,6 +90,22 @@ public class AtUnit implements ProcessFiles.Strategy {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    private static Method checkforCleanupMethod(Method m) {
+        if(m.getAnnotation(TestObjectCleanup.class) == null) {
+            return null;
+        }
+        if(!m.getReturnType().equals(void.class)) {
+            throw new RuntimeException("@TestObjectCleanup " + "must return void");
+        }
+        if((m.getModifiers() & Modifier.STATIC) <1){
+            throw new RuntimeException("@TestObjectCleanup " + "must be static.");
+        }
+        if(m.getParameterTypes().length == 0 || m.getParameterTypes()[0]!=testClass)
+            throw new RuntimeException("@TestObjectCleanup " + "must take an argument of the tested type.");
+        m.setAccessible(true);
+        return m;
     }
 
     public static class TestMethods extends ArrayList<Method> {
@@ -128,7 +144,7 @@ public class AtUnit implements ProcessFiles.Strategy {
             }
         } else { // Use the zero-argument constructor:
             try {
-                return testClass.getConstructor() .newInstance();
+                return testClass.getConstructor().newInstance();
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                      NoSuchMethodException e) {
                 throw new RuntimeException("Couldn't create a test object. " +
@@ -138,6 +154,7 @@ public class AtUnit implements ProcessFiles.Strategy {
     }
 
     public static void main(String[] args) {
+        //todo_lh
         args =new String[] {"java-base/book/on-java/build/classes/java/main/annotations/AtUnitExample1.class"};
         ClassLoader.getSystemClassLoader().setDefaultAssertionStatus(true); // Enable assert
         new ProcessFiles(new AtUnit(),"class").start(args);
