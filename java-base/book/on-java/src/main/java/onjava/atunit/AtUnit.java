@@ -1,5 +1,6 @@
 package onjava.atunit;
 
+import annotations.AUExternalTest;
 import annotations.AtUnitExample1;
 import onjava.ProcessFiles;
 
@@ -21,16 +22,13 @@ public class AtUnit implements ProcessFiles.Strategy {
     static long testsRun = 0;
     static long failures = 0;
 
-
     @Override
     public void process(File cfile) {
         try {
             String cName = ClassNameFinder.thisClass(Files.readAllBytes(cfile.toPath()));
-            if(!cName.startsWith("public:"))
-                return;
+            if (!cName.startsWith("public:")) return;
             cName = cName.split(":")[1];
-            if(!cName.contains("."))
-                return;// Ignore unpackaged classes
+            if (!cName.contains(".")) return; // Ignore unpackaged classes
             testClass = Class.forName(cName);
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -39,36 +37,36 @@ public class AtUnit implements ProcessFiles.Strategy {
         Method creator = null;
         Method cleanup = null;
         for (Method m : testClass.getDeclaredMethods()) {
-           testMethods.addIfTestMethod(m);
-           if(creator == null) {
-               creator = checkForCreatorMethod(m);
-           }
-           if(cleanup == null) {
-               cleanup = checkforCleanupMethod(m);
-           }
+            testMethods.addIfTestMethod(m);
+            if (creator == null) {
+                creator = checkForCreatorMethod(m);
+            }
+            if (cleanup == null) {
+                cleanup = checkforCleanupMethod(m);
+            }
         }
-        if(testMethods.size()> 0) {
-           if(creator ==null)  {
-               try {
-                   if(!Modifier.isPublic(testClass.getDeclaredConstructor().getModifiers())) {
+        if (testMethods.size() > 0) {
+            if (creator == null) {
+                try {
+                    if (!Modifier.isPublic(testClass.getDeclaredConstructor().getModifiers())) {
                         System.out.println("Error: " + testClass + " zero-argument constructor must be public");
                         System.exit(1);
-                   }
-               } catch (NoSuchMethodException e) {
-                   // Synthesized zero-argument constructor;ok
-               }
-           }
+                    }
+                } catch (NoSuchMethodException e) {
+                    // Synthesized zero-argument constructor;ok
+                }
+            }
             System.out.println(testClass.getName());
         }
         for (Method m : testMethods) {
-            System.out.print(" . " + m.getName() +" ");
-            try{
+            System.out.print(" . " + m.getName() + " ");
+            try {
                 Object testObject = createTestObject(creator);
                 boolean success = false;
 
                 try {
-                    if(m.getReturnType().equals(boolean.class)){
-                        success = (Boolean)m.invoke(testObject);
+                    if (m.getReturnType().equals(boolean.class)) {
+                        success = (Boolean) m.invoke(testObject);
                     } else {
                         m.invoke(testObject);
                         success = true; // If no assert fails
@@ -79,30 +77,30 @@ public class AtUnit implements ProcessFiles.Strategy {
                 }
                 System.out.println(success ? "" : "(failed)");
                 testsRun++;
-                if(!success) {
+                if (!success) {
                     failures++;
-                    failedTests.add(testClass.getName() +": " + m.getName());
+                    failedTests.add(testClass.getName() + ": " + m.getName());
                 }
                 if (cleanup != null) {
-                    cleanup.invoke(testObject,testObject);
+                    cleanup.invoke(testObject, testObject);
                 }
-            }catch (IllegalAccessException | IllegalArgumentException|InvocationTargetException e) {
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
     private static Method checkforCleanupMethod(Method m) {
-        if(m.getAnnotation(TestObjectCleanup.class) == null) {
+        if (m.getAnnotation(TestObjectCleanup.class) == null) {
             return null;
         }
-        if(!m.getReturnType().equals(void.class)) {
+        if (!m.getReturnType().equals(void.class)) {
             throw new RuntimeException("@TestObjectCleanup " + "must return void");
         }
-        if((m.getModifiers() & Modifier.STATIC) <1){
+        if ((m.getModifiers() & Modifier.STATIC) < 1) {
             throw new RuntimeException("@TestObjectCleanup " + "must be static.");
         }
-        if(m.getParameterTypes().length == 0 || m.getParameterTypes()[0]!=testClass)
+        if (m.getParameterTypes().length == 0 || m.getParameterTypes()[0] != testClass)
             throw new RuntimeException("@TestObjectCleanup " + "must take an argument of the tested type.");
         m.setAccessible(true);
         return m;
@@ -110,12 +108,10 @@ public class AtUnit implements ProcessFiles.Strategy {
 
     public static class TestMethods extends ArrayList<Method> {
         void addIfTestMethod(Method m) {
-            if(m.getAnnotation(Test.class) == null) {
+            if (m.getAnnotation(Test.class) == null) {
                 return;
             }
-            if(!(m.getReturnType().equals(boolean.class) ||
-                    m.getReturnType().equals(void.class))
-            ) {
+            if (!(m.getReturnType().equals(boolean.class) || m.getReturnType().equals(void.class))) {
                 throw new RuntimeException("@Test method" + " must return boolean or void");
             }
             m.setAccessible(true); // If it's private, etc:
@@ -124,42 +120,51 @@ public class AtUnit implements ProcessFiles.Strategy {
     }
 
     private static Method checkForCreatorMethod(Method m) {
-        if(m.getAnnotation(TestObjectCreate.class) == null)
-           return null;
-        if(!m.getReturnType().equals(testClass))
-            throw new RuntimeException("@TestObjectCreate "
-            +"must return instance of Class to be tested");
-        if((m.getModifiers() & Modifier.STATIC) < 1)
+        if (m.getAnnotation(TestObjectCreate.class) == null) return null;
+        if (!m.getReturnType().equals(testClass))
+            throw new RuntimeException("@TestObjectCreate " + "must return instance of Class to be tested");
+        if ((m.getModifiers() & Modifier.STATIC) < 1)
             throw new RuntimeException("@TestObjectCreate " + "must be static.");
         m.setAccessible(true);
         return m;
     }
 
-    private static Object createTestObject(Method creator){
-        if(creator !=null) {
+    private static Object createTestObject(Method creator) {
+        if (creator != null) {
             try {
                 return creator.invoke(testClass);
-            } catch (IllegalAccessException |IllegalArgumentException| InvocationTargetException e) {
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                 throw new RuntimeException("Couldn't run " + "@TestObject  (creator) method.");
             }
         } else { // Use the zero-argument constructor:
             try {
                 return testClass.getConstructor().newInstance();
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                     NoSuchMethodException e) {
-                throw new RuntimeException("Couldn't create a test object. " +
-                        "Try using a @TestObject method.");
+            } catch (InstantiationException
+                    | IllegalAccessException
+                    | InvocationTargetException
+                    | NoSuchMethodException e) {
+                throw new RuntimeException("Couldn't create a test object. " + "Try using a @TestObject method.");
             }
         }
     }
 
     public static void main(String[] args) {
-        //todo_lh
-        args =new String[] {"java-base/book/on-java/build/classes/java/main/annotations/AtUnitExample1.class"};
+        // todo_lh
+        args = new String[] {
+            "java-base/book/on-java/build/classes/java/main/annotations/AtUnitExample1.class",
+            "java-base/book/on-java/build/classes/java/main/annotations/AUExternalTest.class",
+            "java-base/book/on-java/build/classes/java/main/annotations/AUComposition.class",
+            "java-base/book/on-java/build/classes/java/main/annotations/AtUnitExample2.class",
+            "java-base/book/on-java/build/classes/java/main/annotations/HashSetTest.class",
+            "java-base/book/on-java/build/classes/java/main/annotations/AtUnitExample3.class",
+            "java-base/book/on-java/build/classes/java/main/annotations/AtUnitExample4.class",
+            "java-base/book/on-java/build/classes/java/main/annotations/AtUnitExample5.class",
+            "java-base/book/on-java/build/classes/java/main/annotations/StackLStringTst.class",
+        };
         ClassLoader.getSystemClassLoader().setDefaultAssertionStatus(true); // Enable assert
-        new ProcessFiles(new AtUnit(),"class").start(args);
-        if(failures == 0) {
-            System.out.println("OK (" + testsRun +" tests)");
+        new ProcessFiles(new AtUnit(), "class").start(args);
+        if (failures == 0) {
+            System.out.println("OK (" + testsRun + " tests)");
         } else {
             System.out.println("(" + testsRun + " tests)");
             System.out.println("\n>>> " + failures + " FAILURE" + (failures > 1 ? "S" : "" + " <<<"));
