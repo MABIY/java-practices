@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * @author lh
  */
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.TYPE)
 public @interface AutoValueDTO {
 }
