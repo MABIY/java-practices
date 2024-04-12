@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 public class Nap {
     public Nap(double t) {
         try {
-            TimeUnit.DAYS.sleep((long)(1000*t));
+            TimeUnit.MILLISECONDS.sleep((long)(1000*t));
         }catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
