@@ -25,7 +25,7 @@ public class IfaceExtractorProcessor extends AbstractProcessor {
     public synchronized void init(ProcessingEnvironment processingEnv) {
         this.processingEnv = processingEnv;
         elementUtils = processingEnv.getElementUtils();
-        //        super.init(processingEnv); todo_lh
+        //        super.init(processingEnv);
     }
 
     @Override

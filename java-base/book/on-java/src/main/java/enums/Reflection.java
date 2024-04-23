@@ -38,6 +38,5 @@ public class Reflection {
         System.out.println(exploreMethods);
         //Decompile the code for the enum:
         OSExecute.command("javap -cp /home/lh/project/java-practices/java-base/book/on-java/build/classes/java/main enums.Explore");
-        //// TODO_LH: 2024/4/2 start
     }
 }

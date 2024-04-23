@@ -149,7 +149,6 @@ public class AtUnit implements ProcessFiles.Strategy {
     }
 
     public static void main(String[] args) {
-        // todo_lh
         args = new String[] {
             "java-base/book/on-java/build/classes/java/main/annotations/AtUnitExample1.class",
             "java-base/book/on-java/build/classes/java/main/annotations/AUExternalTest.class",
