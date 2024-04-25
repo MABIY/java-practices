@@ -35,7 +35,7 @@ public class CountMap extends AbstractMap<Integer,String> {
 
         @Override
         public Integer getKey() {
-            return index;
+            return new Integer(index);
         }
 
         @Override
