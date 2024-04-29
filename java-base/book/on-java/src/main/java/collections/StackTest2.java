@@ -1,5 +1,7 @@
 package collections;
 
+import onjava.Stack;
+
 /**
  * @author lh
  */
