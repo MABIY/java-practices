@@ -1,4 +1,4 @@
-package allobject;
+package object;
 
 /**
  * @author lh
