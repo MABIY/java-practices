@@ -14,7 +14,7 @@ public class Documentation1 {
      * A method comment
      * @throws Exception ext
      * @throws RuntimeException e
-     * @deprecated deprecated
+     * @Deprecated deprecated
      */
     public void f() throws Exception{
 
