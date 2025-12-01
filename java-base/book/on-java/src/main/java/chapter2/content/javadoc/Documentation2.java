@@ -1,4 +1,4 @@
-package object.javadoc;
+package chapter2.content.javadoc;
 
 /**
  * <pre>

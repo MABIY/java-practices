@@ -1,4 +1,4 @@
-package object;
+package chapter2.content;
 
 /**
  * @author lh
