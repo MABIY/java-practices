@@ -62,6 +62,7 @@ public class Overloading_ch2_16 {
             t.info();
             t.info("overloading method");
         }
+        // Overloaded constructor:
         new Tree();
     }
 }
