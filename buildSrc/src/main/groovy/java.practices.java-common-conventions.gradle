@@ -42,6 +42,11 @@ dependencies {
     implementation 'ch.qos.logback:logback-classic:1.5.3'
 
     implementation("com.google.guava:guava:33.1.0-jre")
+
+    // Use JUnit Jupiter for source code.
+    implementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+    runtimeOnly 'org.junit.platform:junit-platform-launcher'
+
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
 
