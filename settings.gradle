@@ -22,6 +22,6 @@ include 'java-base:generic-type'
 include 'projects:web-service:spring-web-service'
 include 'projects:web-service:spring-web-service-consumer'
 include 'projects:web-service:messaging-stomp-websocket'
-include 'java-base:book:on-java'
-findProject(':java-base:book:on-java')?.name = 'on-java'
+include 'java-base:book:thinking-in-java'
+findProject(':java-base:book:thinking-in-java')?.name = 'thinking-in-java'
 
