@@ -18,8 +18,8 @@ public class Documentation1 {
      * @deprecated deprecated
      * @see String#toLowerCase() convertToLowercase
      */
+    @Deprecated
     public void f() throws Exception{
-
     }
 
 
@@ -31,6 +31,7 @@ public class Documentation1 {
      * @see <a href="http://www.baeldung.com">Baeldung</a>
      * @see String#hashCode() hashCode
      */
+    @Deprecated
     public String someMethod() {
         // perform some function
         return "";
@@ -44,6 +45,7 @@ public class Documentation1 {
      * @see #getClass() Use {@link #toString()} for String conversion.
      * @deprecated As of JDK 1.1, replaced by {@link #someMethod()}
      */
+    @Deprecated
     public void test(){
 
     }
