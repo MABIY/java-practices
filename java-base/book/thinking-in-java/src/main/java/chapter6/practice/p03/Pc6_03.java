@@ -1,6 +1,6 @@
-package chapter6.practice.pc6_03;
+package chapter6.practice.p03;
 
-import chapter6.practice.pc6_03.debug.Debug;
+import chapter6.practice.p03.debug.Debug;
 
 /**
  * @author lh

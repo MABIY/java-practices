@@ -1,4 +1,4 @@
-package chapter6.practice.pc6_05;
+package chapter6.practice.p05;
 /**
  * @author lh
  */

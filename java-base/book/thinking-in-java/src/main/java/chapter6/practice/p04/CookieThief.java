@@ -1,6 +1,6 @@
-package chapter6.practice.pc6_04;
+package chapter6.practice.p04;
 
-import chapter6.practice.pc6_04.cookie2.Cookie;
+import chapter6.practice.p04.cookie2.Cookie;
 
 /**
  * @author lh

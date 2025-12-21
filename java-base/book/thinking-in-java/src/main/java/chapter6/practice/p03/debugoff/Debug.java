@@ -1,4 +1,4 @@
-package chapter6.practice.pc6_03.debugoff;
+package chapter6.practice.p03.debugoff;
 /**
  * @author lh
  */

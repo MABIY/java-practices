@@ -1,4 +1,4 @@
-package chapter6.practice.pc6_04.cookie2;
+package chapter6.practice.p04.cookie2;
 /**
  * @author lh
  */
