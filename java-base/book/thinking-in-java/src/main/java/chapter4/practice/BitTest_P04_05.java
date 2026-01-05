@@ -7,21 +7,7 @@ import static util.Print.print;
  * bitwise test to display the ones and zeros, instead of Integer.toBinaryString()
  * @author lh
  */
-public class BitTest{
-    static void binaryPrint(int q){
-        if(q ==0) System.out.print(0);
-        else {
-            int nlz = Integer.numberOfLeadingZeros(q);
-            q <<= nlz;
-            for(int p = 0; p < 32-nlz; p++) {
-                int n = (Integer.numberOfLeadingZeros(q) == 0) ? 1 : 0;
-                System.out.print(n);
-                q <<= 1;
-            }
-        }
-        System.out.println("");
-    }
-
+public class BitTest_P04_05 {
     public static void main(String[] args){
         int i = 1 + 4 + 16 + 64;
         int j = 2 + 8 + 32 + 128;
@@ -56,5 +42,19 @@ public class BitTest{
         binaryPrint(~i);
         print("~j = " + ~j + " = ");
         binaryPrint(~j);
+    }
+
+    static void binaryPrint(int q){
+        if(q ==0) System.out.print(0);
+        else {
+            int nlz = Integer.numberOfLeadingZeros(q);
+            q <<= nlz;
+            for(int p = 0; p < 32-nlz; p++) {
+                int n = (Integer.numberOfLeadingZeros(q) == 0) ? 1 : 0;
+                System.out.print(n);
+                q <<= 1;
+            }
+        }
+        System.out.println();
     }
 }
