@@ -8,7 +8,7 @@ import static util.Print.print;
  * Modify exercise 2 with infinte while loop. Stop program with Ctrl-C
  * @author lh
  */
-public class CompareIntsForever {
+public class CompareIntsForever_P04_03 {
     public static void main(String[] args){
         Random rand1  = new Random();
         Random rand2 = new Random();

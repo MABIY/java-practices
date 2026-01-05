@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * @author lh
  */
-public class CompareInts {
+public class CompareInts_P04_02 {
     public static void main(String[] args){
 //        Random rand1 =  new Random();
 //        Random rand2=  new Random();
