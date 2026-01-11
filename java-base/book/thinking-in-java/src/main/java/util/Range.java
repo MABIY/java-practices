@@ -8,7 +8,7 @@ package util;
 public class Range {
     //Produce a sequence [10..n)
     public static int[] range(int n){
-        int[] result = new int[4];
+        int[] result = new int[n];
         for(int i = 0; i < n; i++) {
             result[i] = i;
         }
