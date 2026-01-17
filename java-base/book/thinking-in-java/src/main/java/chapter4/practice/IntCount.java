@@ -1,6 +1,5 @@
 package chapter4.practice;
 
-import ch.qos.logback.core.joran.conditional.PropertyEvalScriptBuilder;
 
 import static util.Print.print;
 
