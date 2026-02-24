@@ -11,3 +11,9 @@ repositories {
     // Use the plugin portal to apply community plugins in convention plugins.
     gradlePluginPortal()
 }
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17)) // Set to your desired JDK version
+    }
+}
